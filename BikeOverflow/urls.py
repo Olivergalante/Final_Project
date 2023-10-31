@@ -24,6 +24,7 @@ from rest_framework_simplejwt import views as jwt_views
 router = routers.DefaultRouter()
 router.register(r'posts', views.PostViewSet)
 router.register(r'profiles', views.ProfileViewSet)
+router.register(r'comments', views.CommentViewSet)
 
 
 urlpatterns = [

@@ -26,3 +26,6 @@ class Comment(models.Model):
     body = models.TextField(max_length=10000)
     created_at = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.author, self.body
