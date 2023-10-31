@@ -13,7 +13,7 @@ class Profile(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    content = models.TextField(max_length=10000)
+    content = models.TextField(max_length=350)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -23,9 +23,9 @@ class Post(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    body = models.TextField(max_length=10000)
+    body = models.TextField(max_length=350)
     created_at = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.author, self.body
+        return f"{self.author.username}: {self.body[:50]}"
