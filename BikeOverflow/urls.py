@@ -29,6 +29,5 @@ router.register(r'comments', views.CommentViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-    path('search/', views.user_search, name='user-search'),
     path('admin/', admin.site.urls),
 ]

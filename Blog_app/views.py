@@ -5,22 +5,10 @@ from rest_framework.response import Response
 from django.shortcuts import render
 from .models import Post, Profile, Comment, User
 from rest_framework import viewsets, generics
-from .serializers import PostSerializer, ProfileSerializer, CommentSerializer, UserSearchSerializer
+from .serializers import PostSerializer, ProfileSerializer, CommentSerializer
 
 
 # Create your views here.
-
-class UserSearchView(generics.ListAPIView):
-    serializer_class = UserSearchSerializer
-
-    def user_search(self, request):
-        username = request.Get('username')
-        if username:
-            users = User.objects.filter(username__icontains=username)
-            serializer = UserSearchSerializer(users, many=True)
-            return Response(serializer.data)
-        else:
-            return Response(status=400)
 
 
 class PostViewSet(viewsets.ModelViewSet):
