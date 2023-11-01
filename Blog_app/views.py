@@ -5,17 +5,10 @@ from .serializers import PostSerializer, ProfileSerializer, CommentSerializer, I
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.response import Response
 
 
 # Create your views here.
-
-@api_view(['GET'])
-def getRoutes(request):
-    routes = [
-        '/api/token',
-        'api/token/refresh',
-    ]
-    return Response(routes)
 
 
 class ImageViewSet(viewsets.ModelViewSet):
