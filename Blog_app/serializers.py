@@ -23,7 +23,7 @@ class PostSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['id', 'user']
+        fields = ['id', 'user_id']
 
 
 class CommentSerializer(serializers.ModelSerializer):

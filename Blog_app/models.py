@@ -17,11 +17,10 @@ class Image(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(
-        User, null=True, on_delete=models.CASCADE, primary_key=False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.user_id)
 
 
 class Post(models.Model):

@@ -26,7 +26,6 @@ router.register(r'posts', views.PostViewSet)
 router.register(r'profiles', views.ProfileViewSet)
 router.register(r'comments', views.CommentViewSet)
 router.register(r'images', views.ImageViewSet)
-# router.register(r'register', views.RegisterView)
 
 
 urlpatterns = [
