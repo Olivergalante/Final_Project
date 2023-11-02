@@ -8,10 +8,10 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'image_name', 'image_caption', 'image_author']
 
 
-class UserSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['id', 'email', 'username', 'password']
+        model = Profile
+        fields = ['id', 'user_id']
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -20,10 +20,12 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'content', 'author', 'created_at']
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+
     class Meta:
-        model = Profile
-        fields = ['id', 'user_id']
+        model = User
+        fields = ['id', 'email', 'username', 'password']
 
 
 class CommentSerializer(serializers.ModelSerializer):
