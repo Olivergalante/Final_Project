@@ -22,6 +22,15 @@ class RegisterView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class LoginView(APIView):
+    def post(self, request):
+        serializer = TokenObtainPairSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class ImageViewSet(viewsets.ModelViewSet):
     serialzer_class = ImageSerializer
     queryset = Image.objects.all()
