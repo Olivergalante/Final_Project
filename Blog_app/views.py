@@ -3,8 +3,7 @@ from .models import Post, Profile, Comment, Image
 from rest_framework import viewsets
 from .serializers import PostSerializer, ProfileSerializer, CommentSerializer, ImageSerializer, UserSerializer
 from rest_framework.views import APIView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import make_password
