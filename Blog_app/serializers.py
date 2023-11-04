@@ -21,11 +21,10 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer()
-
     class Meta:
         model = User
         fields = ['id', 'email', 'username', 'password']
+        profile = ProfileSerializer()
 
 
 class CommentSerializer(serializers.ModelSerializer):
