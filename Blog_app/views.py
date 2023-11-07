@@ -1,9 +1,9 @@
 from rest_framework.permissions import IsAuthenticated
 from .models import Post, Profile, Comment, Image
 from rest_framework import viewsets
-from .serializers import PostSerializer, ProfileSerializer, CommentSerializer, ImageSerializer, UserSerializer
+from .serializers import PostSerializer, ProfileSerializer, CommentSerializer, ImageSerializer, UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework.views import APIView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import make_password
@@ -21,13 +21,13 @@ class RegisterView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class LoginView(APIView):
-    def post(self, request):
-        serializer = TokenObtainPairSerializer(data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# class LoginView(APIView):
+#     def post(self, request):
+#         serializer = CustomTokenObtainPairSerializer(data=request.data)
+#         if serializer.is_valid():
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ImageViewSet(viewsets.ModelViewSet):
@@ -52,3 +52,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all().order_by('-created_at')
     serializer_class = CommentSerializer
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serialserializer_class = CustomTokenObtainPairSerializer
