@@ -40,7 +40,7 @@ def save_user_profile(sender, instance, **kwargs):
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField(max_length=350)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
