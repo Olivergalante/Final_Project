@@ -1,12 +1,6 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import Post, Profile, Comment, Image, User
-
-
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Image
-        fields = ['id', 'image_name', 'image_caption', 'image_author']
+from .models import Post, Profile, Comment, User
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -17,10 +11,12 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='author.username')
+    image_url = serializers.ImageField(required=False)
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'content', 'author', 'created_at', 'username']
+        fields = ['id', 'title', 'content', 'author',
+                  'created_at', 'username', 'image_url']
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -6,19 +6,6 @@ from django.dispatch import receiver
 # Create your models here.
 
 
-class Image(models.Model):
-    image = models.ImageField(upload_to='images/')
-    image_name = models.CharField(max_length=100)
-    image_caption = models.TextField(max_length=350)
-    image_likes = models.IntegerField(default=0)
-    image_comments = models.IntegerField(default=0)
-    image_author = models.ForeignKey(User, on_delete=models.CASCADE)
-    image_created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.image_name
-
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
@@ -41,7 +28,8 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField(max_length=350)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    # username = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='post_images/', null=True, blank=True)
+    likes = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
