@@ -16,9 +16,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='author.username')
+
     class Meta:
         model = Post
-        fields = ['id', 'title', 'content', 'author', 'created_at']
+        fields = ['id', 'title', 'content', 'author', 'created_at', 'username']
 
 
 class UserSerializer(serializers.ModelSerializer):
