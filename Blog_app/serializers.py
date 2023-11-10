@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Post, Profile, Comment, User
+from django.contrib.auth.models import User
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -10,13 +11,12 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='author.username')
     image = serializers.ImageField(required=False, use_url=True)
 
     class Meta:
         model = Post
         fields = ['id', 'title', 'content', 'author',
-                  'created_at', 'username', 'image']
+                  'image', 'created_at', 'username']
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,8 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', 'password']
-        profile = ProfileSerializer()
+        fields = ['id', 'email', 'username', 'password', 'profile']
 
 
 class CommentSerializer(serializers.ModelSerializer):

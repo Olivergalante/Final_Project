@@ -32,6 +32,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField(max_length=350)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    username = models.CharField(null=True)
     image = models.ImageField(upload_to=upload_to, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
