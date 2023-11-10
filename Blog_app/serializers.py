@@ -11,16 +11,16 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='author.username')
-    image_url = serializers.ImageField(required=False)
+    image = serializers.ImageField(required=False, use_url=True)
 
     class Meta:
         model = Post
         fields = ['id', 'title', 'content', 'author',
-                  'created_at', 'username', 'image_url']
+                  'created_at', 'username', 'image']
 
 
 class UserSerializer(serializers.ModelSerializer):
-    print("USER SERIALIZER")
+    profile = ProfileSerializer()
 
     class Meta:
         model = User
@@ -46,6 +46,4 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
         print(self)
         data["userId"] = self.user.id
-        # data["username"] = self.user.username
-        # data["name"] = self.user.first_name + " " + self.user.last_name
         return data

@@ -24,12 +24,15 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
+def upload_to(instance, filename):
+    return "images/{filename}".format(filename=filename)
+
+
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField(max_length=350)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='post_images/', null=True, blank=True)
-    likes = models.IntegerField(default=0)
+    image = models.ImageField(upload_to=upload_to, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

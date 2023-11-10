@@ -46,7 +46,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
-    serialserializer_class = CustomTokenObtainPairSerializer
+    serializer_class = CustomTokenObtainPairSerializer
 
 
 class LoginView(TokenObtainPairView):
