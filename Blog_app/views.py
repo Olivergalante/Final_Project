@@ -17,7 +17,8 @@ class RegisterView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             password = make_password(request.data['password'])
-            serializer.save(password=password)
+            user = serializer.save(password=password)
+            Profile.objects.create(user=user)  # Create profile here
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -35,8 +36,9 @@ class PostViewSet(viewsets.ModelViewSet):
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    lookup_field = "user_id"
 
-    def perform_create(self, serializer):
+    def perform_update(self, serializer):
         serializer.save(user=self.request.user)
 
 
