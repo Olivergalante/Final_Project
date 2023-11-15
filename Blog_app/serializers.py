@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Post, Profile, Comment, User
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -31,7 +32,19 @@ class UserSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['id', 'body', 'post', 'author', 'created_at']
+        fields = ['id', 'author', 'post', 'body', 'created_at']
+
+    def create(self, validated_data):
+        # Set the author based on the logged-in user if authenticated
+        user = self.context['request'].user
+        if user.is_authenticated:
+            validated_data['author'] = user
+
+        # Set the post based on the post ID in the URL
+        post_id = self.context['view'].kwargs.get('post_id')
+        validated_data['post'] = get_object_or_404(Post, pk=post_id)
+
+        return super().create(validated_data)
 
 
 class LoginSerializer(serializers.Serializer):

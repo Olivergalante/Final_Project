@@ -9,6 +9,7 @@ from rest_framework import status
 from django.contrib.auth.models import make_password
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import action
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -45,6 +46,16 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all().order_by('-created_at')
     serializer_class = CommentSerializer
+
+    @action(detail=True, methods=['POST'])
+    def add_comment(self, request, post_id=None):
+        serializer = CommentSerializer(data=request.data, context={
+                                       'request': request, 'view': self})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
