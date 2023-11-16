@@ -9,7 +9,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['id', 'user', 'bio', 'location', 'birth_date']
-        lookup_field = "user_id"
+        lookup_field = "user_id"  # Keep it consistent with the view
 
 
 class PostSerializer(serializers.ModelSerializer):

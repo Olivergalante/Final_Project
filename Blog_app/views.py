@@ -1,5 +1,4 @@
-from rest_framework.permissions import IsAuthenticated
-from .models import Post, Profile, Comment
+from .models import Post, Profile, Comment, User
 from rest_framework import viewsets
 from .serializers import PostSerializer, ProfileSerializer, CommentSerializer, UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework.views import APIView
@@ -40,7 +39,25 @@ class ProfileViewSet(viewsets.ModelViewSet):
     lookup_field = "user_id"
 
     def perform_update(self, serializer):
-        serializer.save(user=self.request.user)
+        user_id = self.request.data.get("user")
+
+        # Check if the user ID is provided in the request data
+        if user_id:
+            # Try to get an existing user or create a new user if not found
+            user, created = User.objects.get_or_create(id=user_id)
+
+            # If the user is created, you might want to set additional user attributes
+            if created:
+                user.username = f"guest_{user_id}"  # Customize the username
+                user.save()
+
+            # Set the user and save the profile
+            serializer.save(user=user)
+        else:
+            return Response(
+                {"error": "User ID is required to update the profile."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -48,11 +65,12 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
     @action(detail=True, methods=['POST'])
-    def add_comment(self, request, post_id=None):
-        serializer = CommentSerializer(data=request.data, context={
-                                       'request': request, 'view': self})
+    def add_comment(self, request, pk=None):
+        post = get_object_or_404(Post, pk=pk)
+        serializer = CommentSerializer(data=request.data)
+
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(post=post)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

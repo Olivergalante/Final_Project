@@ -25,7 +25,7 @@ from django.conf.urls.static import static
 router = routers.DefaultRouter()
 router.register(r'posts', views.PostViewSet)
 router.register(r'profiles', views.ProfileViewSet)
-router.register(r'posts/', views.PostViewSet)
+router.register(r'posts', views.PostViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
